@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # original palindrome-checker code from https://gist.github.com/catseye/7336582
 
 import sys
