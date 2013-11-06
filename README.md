@@ -29,4 +29,14 @@ Original code at [Catseye's nif.py example](https://gist.github.com/catseye/7336
 - [http://www.palindromelist.net](http://www.palindromelist.net)
 
 
+## linkdump
+- [The Two](http://nickm.com/poems/the_two.html)
+  - [some notes](http://luckysoap.com/lapsuslinguae/2012/03/trans-mission-a-dialogue/)
+- [TRANS.MISSION \[A.DIALOGUE\]](http://luckysoap.com/generations/transmission.html) adapted from code for The Two
+  - [translations of TRANS.MISSION](http://luckysoap.com/lapsuslinguae/tag/transmediation/)  
+- [GENERATING NARRATIVE VARIATION IN INTERACTIVE FICTION](www.cis.upenn.edu/grad/documents/montfort_000.pdf‎) - dissertation by Nick Monfort
+- [Arty Bollocks](http://www.artybollocks.com) - specifically the files http://www.artybollocks.com/js/short-generator.js and http://www.artybollocks.com/js/full-generator.js
+- http://luckysoap.com/statements/storygenerations.html
+
+
 
