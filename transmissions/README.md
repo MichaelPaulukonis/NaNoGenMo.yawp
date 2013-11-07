@@ -14,5 +14,10 @@ Specific sentences would be rewritten as template calls, and new word-lists adde
 
 These are not necessarily suitable for longer works -- they are geared to produce individual sentences. Trnasmission and Two having a specific sequence of sentence types. To do so at NaNoGenMo-lengths - requiring 50K words - is certainly possible, but an exercise in futility.
 
+## others
+[GORGE](http://luckysoap.com/generations/gorge.html) based on [Taroko Gorge](http://nickm.com/poems/taroko_gorge.html)
+
+Actually, looking at the flow of output, I could almost see something lasting for 50K+ words. With the right set up inputs and setup.....
+
 ## jargon.js
 I'm starting to regret placing jargon into a standalone repo. I think it more appropriately belongs in here, with other replacement-experiments.
