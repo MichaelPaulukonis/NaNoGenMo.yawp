@@ -945,6 +945,7 @@ study = Location('study')
 bathroom = Location('bathroom')
 bobs_bedroom = ProperLocation("Bob's bedroom")
 alices_bedroom = ProperLocation("Alice's bedroom")
+freds_office = ProperLocation("Fred's office")
 
 kitchen.set_exits(dining_room, front_hall)
 living_room.set_exits(dining_room, front_hall)
@@ -954,14 +955,15 @@ driveway.set_exits(front_hall, garage, path_by_the_shed)
 garage.set_exits(driveway)
 path_by_the_shed.set_exits(driveway, shed)
 shed.set_exits(path_by_the_shed)
-upstairs_hall.set_exits(bobs_bedroom, alices_bedroom, front_hall, study, bathroom)
+upstairs_hall.set_exits(bobs_bedroom, alices_bedroom, freds_office, front_hall, study, bathroom)
 bobs_bedroom.set_exits(upstairs_hall)
 alices_bedroom.set_exits(upstairs_hall)
+freds_office.set_exits(upstairs_hall)
 study.set_exits(upstairs_hall)
 bathroom.set_exits(upstairs_hall)
 
 house = (kitchen, living_room, dining_room, front_hall, driveway, garage,
-         upstairs_hall, bobs_bedroom, alices_bedroom, study, bathroom,
+         upstairs_hall, bobs_bedroom, alices_bedroom, freds_office, study, bathroom,
          path_by_the_shed, shed)
 
 falcon = Treasure('golden falcon', dining_room)
@@ -973,15 +975,21 @@ mailbox = Container('mailbox', driveway)
 
 bobs_bed = ProperContainer("Bob's bed", bobs_bedroom)
 alices_bed = ProperContainer("Alice's bed", alices_bedroom)
+freds_desk = ProperContainer("Fred's desk", freds_office)
 
 brandy = Item('bottle of brandy', liquor_cabinet)
-revolver = Weapon('revolver', pick([bobs_bed, alices_bed]))
+revolver = Weapon('revolver', pick([bobs_bed, alices_bed, freds_desk]))
 dead_body = Horror('dead body', bathroom)
+pencil = Item('pencil', freds_desk)
+buttons = Item('small buttons', freds_desk)
+paperclips = Item('paperclips', freds_desk)
+trowel = Item('trowel', shed) # only (Plural)Treasure can be in a room, Items must be in a container?
 
 alice = Female('Alice', None)
 bob = Male('Bob', None)
+fred = Male('Fred', None)
 
-ALL_ITEMS.extend([falcon, jewels, revolver, brandy])
+ALL_ITEMS.extend([falcon, jewels, revolver, brandy, pencil, buttons, paperclips, trowel])
 
 ### util ###
 
@@ -1014,22 +1022,26 @@ for chapter in range(1, 17):
 
     alice_collector = EventCollector()
     bob_collector = EventCollector()
+    fred_collector = EventCollector()
     # don't continue a conversation from the previous chapter, please
     alice.topic = None
     bob.topic = None
     alice.location = None
     bob.location = None
+    fred.topic = None
+    fred.location = None
 
     for paragraph in range(1, 26):
         alice.collector = alice_collector
         bob.collector = bob_collector
+        fred.collector = fred_collector
 
         # we could do this randomly...
-        #pov_actor = pick([alice, bob])
+        # pov_actor = pick([alice, bob])
         # but, we could also alternate.  They ARE Alice and Bob, after all.
-        pov_actor = (alice, bob)[(paragraph - 1) % 2]
+        pov_actor = (alice, bob, fred)[(paragraph - 1) % 3]
 
-        for actor in (alice, bob):
+        for actor in (alice, bob, fred):
             if actor.location is None:
                 actor.place_in(pick(house))
             else:
@@ -1037,7 +1049,7 @@ for chapter in range(1, 17):
                 if not (alice.location == bob.location):
                     actor.emit("<1> was in <2>", [actor, actor.location])
 
-        actor_order = (alice, bob)
+        actor_order = (alice, bob, fred)
         # this leads to continuity problems:
         #if random.randint(0, 1) == 0:
         #    actor_order = (bob, alice)
@@ -1080,6 +1092,12 @@ for chapter in range(1, 17):
             print
             dump_memory(bob)
             print
+            print "FRED'S POV:"
+            for event in fred_collector.events:
+                print str(event)
+            print
+            dump_memory(fred)
+            print
             print "- - - - -"
             print
 
@@ -1095,4 +1113,4 @@ for chapter in range(1, 17):
 
         alice_collector.events = []
         bob_collector.events = []
-
+        fred_collector.events = []
