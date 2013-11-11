@@ -21,3 +21,33 @@ Actually, looking at the flow of output, I could almost see something lasting fo
 
 ## jargon.js
 I'm starting to regret placing jargon into a standalone repo. I think it more appropriately belongs in here, with other replacement-experiments.
+
+## novelizification and novelizifiers
+That is to say, the act of making something into a novel, and things that make something into a novel.
+
+[To wit.](https://github.com/elib/NovelHarvesterBot/blob/master/make_novel.rb)
+
+Which a) is written in ruby, which I don't speak and b) has bits specific for the project, but c) is pretty much conceptually what I'm interested in.
+
+Extension: `novelizify` takes the following parameters:
+
+* senctences - an array of strings. presumed to be sentences.
+* chapterCount - how many chapters to divide this into
+
+divide arrays into chapterCount-blobs, with some sort of variance (for long and short chapters).
+
+divide each chapter into paragraphs.
+How many?
+Based on word-count? something else?
+
+Title of chapters? in original, taken from first sentence of chapter.
+Title of novel? in original, taken from first sentence of book.
+
+The original is specifically formatting for PDF.
+Should the output be that, or some sort of JSON, with some other bridge formatting for PDF or Web or markdown or whathaveyou?
+
+
+Given a large-enough set of words/sentences, this provides a framing device such to say "yep, lookee here, this is one of them novel-things."
+
+
+
