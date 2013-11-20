@@ -25,13 +25,14 @@ var processor = function(err, data) {
     // also.. who knows what
     var lines = [], newlines = [], charnames = [],
 	tmp = "", character = "", dialogue = [],
-	flushleftRe = /^\b/, characterRe = /([A-Z]{2,}( [A-Z]*)?)/;
+	flushleftRe = /^\b/, //characterRe = /([A-Z]{2,}( [A-Z0-9\.]*)?)/;
+        characterRe = /^(\b[A-Z0-9\.]+ ?)*$/;
 
     var store = { characters: [],
                   dialogue: [],
                   chardialogue: [],
                   directions: []
-                  };
+                };
 
     lines = data.trim().split("\n");
 
@@ -43,11 +44,44 @@ var processor = function(err, data) {
 	// otherwise, it's dialogue. concatenate until blank line is found.
 	// blank line found
 	//   emit charname: dialogue
-	if (flushleftRe.exec(line)) return;
 
-	line = line.trim();
-        // if (line.length == 0) return; // can't do this, because we use blank-lines as a trigger for storage
-        // ie, dialogue is over. awkard.
+
+        if (flushleftRe.exec(line) && line.length > 0) {
+            dialogue.push(line);
+            return;
+        }
+
+	line = line.trim().replace("\r", "");
+
+        if (line.length == 0) {
+
+	    // non-blank lines were captured but in the absence of a character name
+	    // we'd get gibberish
+	    // this seems hackish?
+	    // ALSO: we are ignore "stage directions" or whatever that setup stuff is.
+	    // ALSO: some things slip through (see OZ)
+            var lump;
+	    if (character) {
+                lump = dialogue.join(" ");
+                if (lump.length > 0) {
+                    store.dialogue.push(lump);
+                    lump = character + ": " + lump;
+                    store.chardialogue.push(lump);
+                    newlines.push(lump);
+                }
+            } else {
+                // currently being discarded by flush-left directive
+                lump = dialogue.join(" ");
+                if (lump.length > 0) {
+                    store.directions.push(lump);
+                }
+            }
+
+	    character = "";
+	    dialogue = [];
+
+            return;
+        }
 
 	// save character name
         // fails for THREE TOUGH KIDS
@@ -62,35 +96,16 @@ var processor = function(err, data) {
 	};
 
 	// if not blank line, store as dialogue
-	if (character && line.length > 0) {
+	if (character) {
 	    dialogue.push(line);
 	    return;
 	};
 
-	// non-blank lines were captured but in the absence of a character name
-	// we'd get gibberish
-	// this seems hackish?
-	// ALSO: we are ignore "stage directions" or whatever that setup stuff is.
-	// ALSO: some things slip through (see OZ)
-        var lump;
-	if (character) {
-            lump = dialogue.join(" ");
-            store.dialogue.push(lump);
-            lump = character + ": " + lump;
-            store.chardialogue.push(lump);
-        } else {
-            // currently being discarded by flush-left directive
-            lump = dialogue.join(" ");
-            store.directions.push(lump);
-        }
-        newlines.push(lump);
-
-	character = "";
-	dialogue = [];
     });
 
     fs.writeFile(outfile, newlines.join("\n"));
-    fs.writeFile(outfile + ".json", JSON.stringify(store));
+    var json = JSON.stringify(store, null, 2).replace("\\r", "");
+    fs.writeFile(outfile + ".json", json);
 
 };
 
