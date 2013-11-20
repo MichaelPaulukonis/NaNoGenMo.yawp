@@ -1,0 +1,17 @@
+{
+  "name": "nlp",
+  "version": "0.0.0",
+  "description": "nlp script play",
+  "main": "pos.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nlp"
+  ],
+  "author": "Michael Paulukonis",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "pos": "*"
+  }
+}
