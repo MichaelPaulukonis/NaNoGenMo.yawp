@@ -22,11 +22,11 @@ I've been working with text-generation on a smaller-scale, so the larger-scale i
 ## sub-sections
 Most sub-folders in this project have their own, dedicated notes.
 
-* [Transmissions](./tree/master/transmissions)
-* [npc](./tree/master/npc)
-* [framing devises](./tree/master/framingdevises)
-* [cleanup scripts](./tree/master/cleanup)
-* [palindromes](./tree/master/palindrome)
+* [Transmissions](/transmissions)
+* [npc](/npc)
+* [framing devises](/framingdevises)
+* [cleanup scripts](/cleanup)
+* [palindromes](/palindrome)
 
 
 ## linkdump
