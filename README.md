@@ -18,15 +18,15 @@ I've been working with text-generation on a smaller-scale, so the larger-scale i
 - [Generators](http://www.xradiograph.com/WordSalad/Generators) - another page on my wiki
 - [Automatic for the People](http://www.xradiograph.com/WordSalad/AutomaticForThePeople) - guess where this is from? !!!
 - [Web Sketches](http://www.xradiograph.com/PrantedMutter.Sketch) - my web sketches, some of which involve dynamic generators (most of which involve text generated previously).
- 
-## Palindromes
-Discussion on ["Nif" by Cat's Eye Technologies](https://github.com/dariusk/NaNoGenMo/issues/58) - my launch-point for the Palindromes experiments. In Python, which is new for me.
 
-Original code at [Catseye's nif.py example](https://gist.github.com/catseye/7336582)
+## sub-sections
+Most sub-folders in this project have their own, dedicated notes.
 
-- [Neil/Fred's Gigantic List of Palindromes](http://www.derf.net/palindromes/old.palindrome.html)
-- [Thinks.com's palindromes](http://thinks.com/words/palindromes.htm)
-- [http://www.palindromelist.net](http://www.palindromelist.net)
+* [Transmissions](./tree/master/transmissions)
+* [npc](./tree/master/npc)
+* [framing devises](./tree/master/framingdevises)
+* [cleanup scripts](./tree/master/cleanup)
+* [palindromes](./tree/master/palindrome)
 
 
 ## linkdump
