@@ -10,8 +10,9 @@
     "nlp"
   ],
   "author": "Michael Paulukonis",
-  "license": "BSD-2-Clause",
+  "license": "MIT",
   "dependencies": {
-    "pos": "*"
+    "pos": "*",
+    "optimist": "*"
   }
 }
