@@ -25,8 +25,12 @@ Should the output be that, or some sort of JSON, with some other bridge formatti
 
 Given a large-enough set of words/sentences, this provides a framing device such to say "yep, lookee here, this is one of them novel-things."
 
+
 ## Plot
 What if chunked into chapters, and the titles were generated so that some sort of sequence appeared to be present? IE, titles have to relate to one another. Sequentially.
+
+cf the [beat sheet](http://timstout.wordpress.com/story-structure/blake-snyders-beat-sheet/)
+
 
 ## poetical framers
 LONG "EPIC" [sic] POMES
@@ -34,3 +38,7 @@ LONG "EPIC" [sic] POMES
 See the [jseakle's output (pt3)](http://techhouse.org/~jake/poetry/poems_3.html) from [this discussion](https://github.com/dariusk/NaNoGenMo/issues/61)
 
 Remind me of atomically tinier Gertrude Stein's [Tender Buttons.](http://www.bartleby.com/140/1.html)
+
+
+## visual framing
+hence, my [web texts](http://www.xradiograph.com/PrantedMutter.Sketch)
