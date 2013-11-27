@@ -18,12 +18,18 @@ var main = fs.readFileSync(source1, "utf8"),
 
 console.log("main noun count: %d  substitution noun count: %d", mainNouns.length, nounsource.length);
 
-for (var i = 0; i < mainNouns.length; i++) {
+var i, log = [];
+
+for (i = 0; i < mainNouns.length; i++) {
     // NOT QUITE - must replace a complete word...
-    var pattern = "/\b" + mainNouns[i] + "\b/";
+    var pattern = "\\b" + mainNouns[i] + "\\b";
     var regex = new RegExp(pattern);
+    log.push(mainNouns[i] + " : " + nounsource[i]);
     main = main.replace(regex, nounsource[i]);
+    debugger;
 }
+
+fs.writeFileSync("replacelog.txt", log.join("\n"));
 
 fs.writeFileSync(target, main);
 

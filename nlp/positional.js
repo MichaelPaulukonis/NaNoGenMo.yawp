@@ -21,7 +21,7 @@ var taggedWords = new pos.Tagger().tag(words);
 var tags = {};
 for (var i in taggedWords) {
     var taggedWord = taggedWords[i];
-    var word = taggedWord[0];
+    var word = taggedWord[0].replace(/[\[\]\*\(\)]/g, "");
     var tag = taggedWord[1];
     if (!tags[tag]) { tags[tag] = [];}
     tags[tag].push(word);
