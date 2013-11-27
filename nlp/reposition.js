@@ -8,6 +8,15 @@ if (!source1 || !source2 || !target) {
     process.exit();
 }
 
+// check if string has a leading cap
+String.prototype.isCapitalized = function() {
+    return (this.charAt(0) === this.charAt(0).toUpperCase());
+};
+
+String.prototype.initCap = function() {
+    return (this.charAt(0).toUpperCase() + this.slice(1));
+};
+
 var main = fs.readFileSync(source1, "utf8"),
     mainNouns = JSON.parse(fs.readFileSync(source1 + ".json.txt", "utf8"))[tag], // this is also a horrible assumption
     sourceNouns = JSON.parse(fs.readFileSync(source2, "utf8"))[tag],
@@ -18,13 +27,13 @@ console.log("main noun count: %d  substitution noun count: %d", mainNouns.length
 
 for (i = 0; i < mainNouns.length; i++) {
     // must replace only a COMPLETE word (to avoid a clbuttic mistake)
-    var pattern = "\\b" + mainNouns[i] + "\\b";
-    var regex = new RegExp(pattern);
-    main = main.replace(regex, ignore + sourceNouns[i] + ignore); // mark replacements to avoid re-replacing
+    var pattern = "\\b" + mainNouns[i] + "\\b",
+        regex = new RegExp(pattern),
+        replacenoun = mainNouns[i].isCapitalized() ? sourceNouns[i].initCap() : sourceNouns[i];
 
-    // for debugging. or something. try to figure out why the first line ends up looking like
-    // `SophonetranscriptactivityRegiondidn'thomeshowman`Theprogresshacker-criticworse--fromSubversivesproblemsParLE -- madness
-    log.push(mainNouns[i] + " : " + sourceNouns[i]);
+    main = main.replace(regex, ignore + replacenoun + ignore); // mark replacements to avoid re-replacing
+
+    log.push(mainNouns[i] + " : " + replacenoun);
 }
 
 var igre = new RegExp(ignore, "g");

@@ -1,6 +1,7 @@
 var pos = require("pos"),
     argv = require("optimist").argv,
-    fs = require("fs");
+    fs = require("fs"),
+    lib = require("./nlplib");
 
 var source = argv.source, target = argv.target;
 
@@ -14,7 +15,10 @@ if (!target) { target = source + ".json.txt"; }
 
 console.log("source: %s target: %s", source, target);
 
-var text = fs.readFileSync(source, "utf8");
+var text = lib.mDashStandalone(fs.readFileSync(source, "utf8"));
+// have m-dashes on their own...
+
+
 
 var words = new pos.Lexer().lex(text),
     taggedWords = new pos.Tagger().tag(words),
@@ -23,30 +27,25 @@ var words = new pos.Lexer().lex(text),
 
 for (var i in taggedWords) {
     var taggedWord = taggedWords[i];
-    var word = taggedWord[0].replace(/[\[\]\*\(\)]/g, "");
+    var word = lib.removePunctuation(taggedWord[0]);
     var tag = taggedWord[1];
 
-    // why "King" is ALWAYS considered a VBG?
-    // ANSWER: becuase it ends with "ing" (invariant transformational rule)
-    // this library needs exceptions....
-    // and/or a better VBG rule ....
-    if (word.toLowerCase() === "king") { tag = "NN"; }
-    if (word.toLowerCase() === "kings") { tag = "NNS"; }
+    if (word.length > 0) {
+        // why "King" is ALWAYS considered a VBG?
+        // ANSWER: becuase it ends with "ing" (invariant transformational rule)
+        // this library needs exceptions....
+        // and/or a better VBG rule ....
+        if (word.toLowerCase() === "king") { tag = "NN"; }
+        if (word.toLowerCase() === "kings") { tag = "NNS"; }
 
-    // do I want to do this BEFORE or after the other tag-push?
-    // before mean this is the only tag
-    // after mean 1) we'd have both 2) need to copy the create-if-doesn't-exist code
-    if (interest.indexOf(tag) >= 0) {tag = "NOUN"; }
+        // do I want to do this BEFORE or after the other tag-push?
+        // before mean this is the only tag
+        // after mean 1) we'd have both 2) need to copy the create-if-doesn't-exist code
+        if (interest.indexOf(tag) >= 0) {tag = "NOUN"; }
 
-    if (!tags[tag]) { tags[tag] = [];}
-    tags[tag].push(word);
-
-    // temp debugging code (semi-temp)
-    if (word.toLowerCase() === "king") {
-        console.log("'king' added to %s", tag);
-        console.log(taggedWord);
+        if (!tags[tag]) { tags[tag] = [];}
+        tags[tag].push(word);
     }
-
 }
 
 
