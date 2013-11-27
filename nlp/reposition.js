@@ -1,35 +1,36 @@
-var pos = require("pos"),
-    argv = require("optimist").argv,
+var argv = require("optimist").default("tag", "NN").argv, // assume that parsed files have an "NN" entry unless otherwsie supplied
     fs = require("fs");
 
-var source1 = argv.source1, source2 = argv.source2, target = argv.target;
+var source1 = argv.source1, source2 = argv.source2, target = argv.target, tag = argv.tag;
 
 if (!source1 || !source2 || !target) {
     console.error("source1 source2 and target must be supplied.");
     process.exit();
 }
 
-// we're assuming that the parsed files have an NN-entry
-// which they probably will
-// safety will come down the road....
 var main = fs.readFileSync(source1, "utf8"),
-    mainNouns = JSON.parse(fs.readFileSync(source1 + ".json.txt", "utf8")).NN, // this is also a horrible assumption
-    nounsource = JSON.parse(fs.readFileSync(source2, "utf8")).NN;
+    mainNouns = JSON.parse(fs.readFileSync(source1 + ".json.txt", "utf8"))[tag], // this is also a horrible assumption
+    sourceNouns = JSON.parse(fs.readFileSync(source2, "utf8"))[tag],
+    i, log = [],
+    ignore = "xxIGNORExx";
 
-console.log("main noun count: %d  substitution noun count: %d", mainNouns.length, nounsource.length);
-
-var i, log = [];
+console.log("main noun count: %d  substitution noun count: %d", mainNouns.length, sourceNouns.length);
 
 for (i = 0; i < mainNouns.length; i++) {
-    // NOT QUITE - must replace a complete word...
+    // must replace only a COMPLETE word (to avoid a clbuttic mistake)
     var pattern = "\\b" + mainNouns[i] + "\\b";
     var regex = new RegExp(pattern);
-    log.push(mainNouns[i] + " : " + nounsource[i]);
-    main = main.replace(regex, nounsource[i]);
-    debugger;
+    main = main.replace(regex, ignore + sourceNouns[i] + ignore); // mark replacements to avoid re-replacing
+
+    // for debugging. or something. try to figure out why the first line ends up looking like
+    // `SophonetranscriptactivityRegiondidn'thomeshowman`Theprogresshacker-criticworse--fromSubversivesproblemsParLE -- madness
+    log.push(mainNouns[i] + " : " + sourceNouns[i]);
 }
 
-fs.writeFileSync("replacelog.txt", log.join("\n"));
+var igre = new RegExp(ignore, "g");
+main = main.replace(igre, ""); // remove markers
+
+fs.writeFileSync("replacelog2.txt", log.join("\n"));
 
 fs.writeFileSync(target, main);
 
