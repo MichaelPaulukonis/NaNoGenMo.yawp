@@ -1,6 +1,6 @@
 var pos = require("pos"),
     argv = require("optimist").argv,
-    fs = require('fs');
+    fs = require("fs");
 
 var source = argv.source, target = argv.target;
 
@@ -9,14 +9,12 @@ if (!source) {
     process.exit();
 }
 
-if (!target) { target = source + ".json"; }
+// ".txt" because my editor-highlighter freaks out on large json files...
+if (!target) { target = source + ".json.txt"; }
 
 console.log("source: %s target: %s", source, target);
 
-
-var text = "This is some sample text. This text can contain multiple sentences.";
-
-
+var text = fs.readFileSync(source, "utf8");
 
 var words = new pos.Lexer().lex(text);
 var taggedWords = new pos.Tagger().tag(words);
