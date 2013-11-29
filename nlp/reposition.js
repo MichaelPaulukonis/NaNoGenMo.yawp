@@ -25,11 +25,16 @@ var main = fs.readFileSync(source1, "utf8"),
 
 console.log("main noun count: %d  substitution noun count: %d", mainNouns.length, sourceNouns.length);
 
+// TODO: so, what if mainNouns.length > sourceNouns.length?
+// need to reloop back to the beginning...
 for (i = 0; i < mainNouns.length; i++) {
+
+    var index = i % sourceNouns.length;
+
     // must replace only a COMPLETE word (to avoid a clbuttic mistake)
     var pattern = "\\b" + mainNouns[i] + "\\b",
         regex = new RegExp(pattern),
-        replacenoun = mainNouns[i].isCapitalized() ? sourceNouns[i].initCap() : sourceNouns[i];
+        replacenoun = mainNouns[i].isCapitalized() ? sourceNouns[index].initCap() : sourceNouns[index];
 
     main = main.replace(regex, ignore + replacenoun + ignore); // mark replacements to avoid re-replacing
 
