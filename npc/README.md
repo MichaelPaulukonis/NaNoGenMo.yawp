@@ -40,6 +40,13 @@ A world-editor, something to build cohesive maps (eg, rooms that lead to one-ano
 Right now, the worlds are small. 
 What happens when the characters wander about, searching and discovering?
 
+
+## Darius Kazemi's  dreams
+https://github.com/dariusk/dialogue/blob/master/index.js uses a adventure-game-like world with NPCs as its primary generator. (Additional?) dialog comes from tweets.
+
+It's discussed [in this NaNoGenMo "issue"](https://github.com/dariusk/NaNoGenMo/issues/2).
+
+
 ## evaluations and thoughts
 [Grimm.js](https://github.com/ragekit/Grimm.js) looks interesting, although it currently requires user intervention, and is barely there. It is designed to be a core-engine for multiple games, however. Has multiple characters, however. May have potential for what I'm looking for....
 
@@ -48,6 +55,7 @@ I also looked at [Undum](https://github.com/idmillington/undum) - a javascript+h
 Nick Monfort's [Interactive Fiction page](http://www.nickm.com/if/) including links to his [Curveship system](http://curveship.com/).
 
 [Dedalus](https://github.com/pistacchio/Dedalus) is _an authoring system for generating Choose Your Own Adventure (CYOA) narrative._
+
 
 ## links
 Nick Montfort - [Toward a Theory of Interactive Fiction](http://nickm.com/if/toward.html) download PDF at page
