@@ -49,13 +49,27 @@ vows.describe("Test charng things.").addBatch({
 
     },
 
-    "Provided Text is available": {
+    "Text": {
 
+        "Original Option text": {
         topic: function() {
             return simpleEngine(input).Text;
         },
-        "text as expected": function(text) {
+        "text returned  as expected": function(text) {
             assert.equal(input, text);
+        }
+        },
+        "Post-instantiation text can be set": {
+            topic: function() {
+                var newtext = "this is new text";
+                return { engine: simpleEngine(input).Text = newtext,
+                         newtext: newtext
+                       };
+            },
+            "newly provided text is available as expected": function(topic){
+                assert.isTrue(topic.engine.Text !== input);
+                assert.equal(topic.engine.Text, topic.engine.newtext);
+            }
         }
     },
 
