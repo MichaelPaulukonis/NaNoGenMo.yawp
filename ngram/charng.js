@@ -206,7 +206,7 @@ var charng = function(opts) {
 
         var output = "";
 
-        while ( output.length <= n ) {
+        while ( output.length < n ) {
             // TODO: 1-char overlap returns more than one char at a time?!??!
             output += getNext();
         }
