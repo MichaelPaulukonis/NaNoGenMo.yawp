@@ -61,14 +61,17 @@ vows.describe("Test charng things.").addBatch({
         },
         "Post-instantiation text can be set": {
             topic: function() {
-                var newtext = "this is new text";
-                return { engine: simpleEngine(input).Text = newtext,
+                var newtext = "this is new text",
+                    neweng = simpleEngine(input);
+                neweng.Text = newtext;
+                return { engine: neweng,
                          newtext: newtext
                        };
             },
             "newly provided text is available as expected": function(topic){
+                assert.isString(topic.engine.Text);
                 assert.isTrue(topic.engine.Text !== input);
-                assert.equal(topic.engine.Text, topic.engine.newtext);
+                assert.equal(topic.engine.Text, topic.newtext);
             }
         }
     },
@@ -100,8 +103,10 @@ vows.describe("Test charng things.").addBatch({
             return simpleEngine(input);
         },
         "returns n chars": function(engine) {
-            var n = 5;
-            assert.equal(engine.GetNchars(n).length, n);
+            var n = 5,
+                output = engine.GetNchars(n);
+            assert.isString(output);
+            assert.lengthOf(output, n);
         }
     }
 
