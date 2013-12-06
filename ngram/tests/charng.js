@@ -93,6 +93,16 @@ vows.describe("Test charng things.").addBatch({
             assert.isTrue(models["overlap"] !== undefined);
             assert.equal("1-char overlap", models.overlap);
         }
+    },
+
+    "GetNchars": {
+        topic: function() {
+            return simpleEngine(input);
+        },
+        "returns n chars": function(engine) {
+            var n = 5;
+            assert.equal(engine.GetNchars(n).length, n);
+        }
     }
 
 
