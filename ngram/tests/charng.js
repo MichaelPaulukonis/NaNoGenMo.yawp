@@ -8,15 +8,16 @@ var input = "This then is the test that we are testing.";
 
 var simpleEngine = function(input) {
     var opts = { input: input,
-                 model: "markov",
+                 model: charng.Models.markov,
                  ngramLength: 4
                };
-    var engine = new charng(opts);
+    var engine = charng.Create(opts);
     return engine;
 };
 
 vows.describe("Test charng things.").addBatch({
 
+    // TODO: break apart tests of charng and Create
     "instantiate engine with options as expected": {
 
         topic: function() {
@@ -27,8 +28,16 @@ vows.describe("Test charng things.").addBatch({
             assert.isObject(engine);
         },
         "provides Models object": function(engine) {
-            assert.isTrue(engine["Models"] !== undefined);
-            assert.isObject(engine.Models);
+            assert.isTrue(charng["Models"] !== undefined);
+            assert.isObject(charng.Models);
+        },
+        "provides Create function": function(engine) {
+            assert.isTrue(charng["Create"] !== undefined);
+            assert.isFunction(charng.Create);
+        },
+        "provides DefaultOpts object": function(engine) {
+            assert.isTrue(charng["DefaultOpts"] !== undefined);
+            assert.isFunction(charng.DefaultOpts);
         },
         "provides GetNChars function": function(engine) {
             assert.isTrue(engine["GetNchars"] !== undefined);
@@ -78,7 +87,7 @@ vows.describe("Test charng things.").addBatch({
 
     "The Models": {
         topic: function() {
-            return new charng({}).Models; // all that's necessary to get the models
+            return charng.Models; // all that's necessary to get the models
             // NOTE: do NOT try to execute "GetNChars(n)" on an textless engine
             // bad error.
             //
