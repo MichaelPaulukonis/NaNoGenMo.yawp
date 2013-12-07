@@ -39,6 +39,8 @@ vows.describe("Test charng things.").addBatch({
             assert.isTrue(charng["DefaultOpts"] !== undefined);
             assert.isFunction(charng.DefaultOpts);
         },
+
+        // the below need to be broken out
         "provides GetNChars function": function(engine) {
             assert.isTrue(engine["GetNchars"] !== undefined);
             assert.isFunction(engine.GetNchars);
@@ -51,9 +53,9 @@ vows.describe("Test charng things.").addBatch({
             assert.isTrue(engine["GetWords"] !== undefined);
             assert.isFunction(engine.GetWords);
         },
-        "contains Text (string)": function(engine) {
-            assert.isTrue(engine["Text"] !== undefined);
-            assert.equal(typeof engine.Text, "string");
+        "contains GetText function": function(engine) {
+            assert.isTrue(engine["GetText"] !== undefined);
+            assert.isFunction(engine.GetText);
         }
 
     },
@@ -62,7 +64,7 @@ vows.describe("Test charng things.").addBatch({
 
         "Original Option text": {
         topic: function() {
-            return simpleEngine(input).Text;
+            return simpleEngine(input).GetText();
         },
         "text returned  as expected": function(text) {
             assert.equal(input, text);
@@ -72,15 +74,15 @@ vows.describe("Test charng things.").addBatch({
             topic: function() {
                 var newtext = "this is new text",
                     neweng = simpleEngine(input);
-                neweng.Text = newtext;
+                neweng.SetText(newtext);
                 return { engine: neweng,
                          newtext: newtext
                        };
             },
             "newly provided text is available as expected": function(topic){
-                assert.isString(topic.engine.Text);
-                assert.isTrue(topic.engine.Text !== input);
-                assert.equal(topic.engine.Text, topic.newtext);
+                assert.isString(topic.engine.GetText());
+                assert.isTrue(topic.engine.GetText() !== input);
+                assert.equal(topic.engine.GetText(), topic.newtext);
             }
         }
     },

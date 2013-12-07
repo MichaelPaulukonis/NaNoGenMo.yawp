@@ -174,6 +174,11 @@ var charng = function() {
             var gn = getNextInner();
 
             // TODO: the repetitionGovernor model gets hung up sometimes. FIX.
+            // NOTE: there is another bug where the input ends up being blank
+            // that may be the real point of failure
+            // NOTE: blank-input was observed in the in-browser version of this code
+            // and has not yet been observed/tested-for in the node-module-version
+
             // var r = storeRepeat(gn);
             // if (r.length > opts.repetitionGovernor) {
             //     // need to redo it
@@ -218,7 +223,7 @@ var charng = function() {
 
             var output = "";
 
-            while ( output.length <= n ) {
+            while ( output.length < n ) {
                 // TODO: 1-char overlap returns more than one char at a time?!??!
                 output += getNext();
             }
@@ -279,6 +284,7 @@ var charng = function() {
         var getWords = function(n) {
 
             var ws = [], word;
+            n = n || 1;
 
             // if model != markov
             // then n is imprecise
@@ -312,13 +318,24 @@ var charng = function() {
             return aString.replace(/[\n\r]/g, "\\n");
         }
 
+        var setText = function(text) {
+            input = text;
+            priorSubstring = " "; // this is awkward, but we need to reset priorSubstring when resetting text
+            // solutions? ALWAYS call this method, even on original initialization?
+            // TODO: is " " correct? What if the text is OneHundredLetterThunderWord with no spaces?
+        };
+
+        var getText = function() {
+            return input;
+        };
+
         return {
             GetNchars : getnchars,
             Next      : getNextWord,
             GetWords  : getWords,
-            Text      : input
+            GetText   : getText,
+            SetText   : setText
         };
-
 
     };
 
