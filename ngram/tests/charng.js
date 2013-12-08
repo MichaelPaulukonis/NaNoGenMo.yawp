@@ -145,6 +145,43 @@ vows.describe("Test charng things.").addBatch({
             assert.isArray(output);
             assert.lengthOf(output, 0);
         }
+
+    },
+
+    "No spaces in input string": {
+        topic: function() {
+            var stringwithnospaces = "asdflkjhasdfloawetyouiadfjklzcvxsdfgsdfgsdfg";
+            return simpleEngine(stringwithnospaces);
+        },
+        "returns n chars for n > 0": function(engine) {
+            var n = 5,
+                output = engine.GetNchars(n);
+            assert.isString(output);
+            assert.lengthOf(output, n);
+        },
+        // this is the same test as for n > 0
+        // however, n = 0 currently fails for GetWords(n)
+        "returns n chars for n = 0": function(engine) {
+            var n = 0,
+                output = engine.GetNchars(0);
+            assert.isString(output);
+            assert.lengthOf(output, n);
+        },
+        // NEVER RETURNS - since word-function relies on spaces in the original
+        // if there are none... never considers a single word to be found.
+        "Should return n words for n > 0": function(engine) {
+            var n = 5,
+                output = engine.GetWords(n);
+            assert.isArray(output);
+            assert.lengthOf(output, n);
+        },
+        "Should return 0 words for n = 0": function(engine) {
+            var n = 0,
+                output = engine.GetWords(n);
+            assert.isArray(output);
+            assert.lengthOf(output, 0);
+        }
+
     }
 
 }).run();

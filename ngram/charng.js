@@ -64,7 +64,7 @@ var charng = function() {
         var repeatChars = [];
         var repeatWords = [];
 
-        var priorSubstring = " ";
+        var priorSubstring = "";
         var toAdd = "";
 
         // parameter: n-gram size
@@ -240,34 +240,58 @@ var charng = function() {
             if (opts.model !== models.markov) {
                 word = getNext();
             } else {
-                // this is not a good model for non-markov words
-                // if it is returning one char, yeah
-                // but it is NOT returning one char at a time
-                // so: ugh
-                // whitespace can be in the middle of the return value
-                // or even contain multiple small words
-                // but here, every piece is treated as one word
-                // and exterior algorithms will surround with space
-                // which is not so good
-                // since the "cento" method is ALWAYS random, and doesn't rely on previous input
-                // we can grab a bunch of text, count number of whitespaces, and return the correct amount
-                // (this is a rough algorithm, and not optimised)
-                // one-char overlap is a bit different, though
-                // we don't want to discard pieces
-                // since those could be used on a futher call
-                // you know, ANOTHER "get Next word"
-                // oh. which means that the cento method should not be HERE, but elsewhere
-                // and probably "cento" doesn't have a "next word" model at all.
-                // it can have "next" but not word.
-                var found = false;
-                    while (!found) {
+
+                /**
+                this is not a good model for non-markov words
+                if it is returning one char, yeah
+                but it is NOT returning one char at a time
+                so: ugh
+                whitespace can be in the middle of the return value
+                or even contain multiple small words
+                but here, every piece is treated as one word
+                and exterior algorithms will surround with space
+                which is not so good
+                since the "cento" method is ALWAYS random, and doesn't rely on previous input
+                we can grab a bunch of text, count number of whitespaces, and return the correct amount
+                (this is a rough algorithm, and not optimised)
+                one-char overlap is a bit different, though
+                we don't want to discard pieces
+                since those could be used on a futher call
+                you know, ANOTHER "get Next word"
+                oh. which means that the cento method should not be HERE, but elsewhere
+                and probably "cento" doesn't have a "next word" model at all.
+                it can have "next" but not word.
+
+                NOTE: if the input has NO SPACES
+                      there is never a space found to separate into words
+                      how about....
+                      define end-word as end-of-input-string
+                      IN THAT SITUATION ONLY ????
+                      except that end-of-input-string is not exposed
+                      and seems poor form to expose it for this case only
+
+                **/
+
+                var hasWord = false;
+                    while (!hasWord) {
                         var c = getNext();
-                        // there is a small bug that pops up here sometimes
-                        // if ' ' is the first returned characters, then word.length == 0
-                        // a space can lead to another space, leading to an infinite loop
-                        // we need a repetition governor in here.....
-                        if ( c === " " & word.length > 0) {
-                            found = true;
+                        /**
+
+                        there is a small bug that pops up here sometimes
+                        if ' ' is the first returned characters, then word.length == 0
+                        a space can lead to another space, leading to an infinite loop
+                        we need a repetition governor in here.....
+
+                        in space-free texts we never encounter a space naturally
+                        quick-fix: give-up if the "word" is the length of the input string
+                        Not sure of an easier method to do this....
+
+                        won't work for char-only texts, but making it break on puncts is another method
+
+                        **/
+
+                        if ((c === " " && word.length > 0) || (word.length >= input.length)) {
+                            hasWord = true;
                         } else if (c!== " ") {
                             word += c;
                         }
@@ -281,10 +305,11 @@ var charng = function() {
         // if model is NOT markov
         // concat as string
         // split on spaces
+        // this will fail if there are NO SPACES IN ORIGINAL
         var getWords = function(n) {
 
             var ws = [], word;
-            if (typeof n === "undefined") n = 1;
+            if (typeof n === "undefined") { n = 1; }
 
             // if model != markov
             // then n is imprecise
@@ -312,17 +337,10 @@ var charng = function() {
 
         };
 
-
-        function replaceNewlines( aString ) {
-
-            return aString.replace(/[\n\r]/g, "\\n");
-        }
-
         var setText = function(text) {
             input = text;
-            priorSubstring = " "; // this is awkward, but we need to reset priorSubstring when resetting text
+            priorSubstring = ""; // this is awkward, but we need to reset priorSubstring when resetting text
             // solutions? ALWAYS call this method, even on original initialization?
-            // TODO: is " " correct? What if the text is OneHundredLetterThunderWord with no spaces?
         };
 
         var getText = function() {
@@ -332,6 +350,7 @@ var charng = function() {
         return {
             GetNchars : getnchars,
             Next      : getNextWord,
+
             GetWords  : getWords,
             GetText   : getText,
             SetText   : setText
