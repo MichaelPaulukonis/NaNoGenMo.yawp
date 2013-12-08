@@ -17,7 +17,6 @@ var simpleEngine = function(input) {
 
 vows.describe("Test charng things.").addBatch({
 
-    // TODO: break apart tests of charng and Create
     "instantiate engine with options as expected": {
 
         topic: function() {
@@ -38,9 +37,15 @@ vows.describe("Test charng things.").addBatch({
         "provides DefaultOpts object": function(engine) {
             assert.isTrue(charng["DefaultOpts"] !== undefined);
             assert.isFunction(charng.DefaultOpts);
+        }
+    },
+
+    "Create": {
+
+        topic: function() {
+            return simpleEngine(input);
         },
 
-        // the below need to be broken out
         "provides GetNChars function": function(engine) {
             assert.isTrue(engine["GetNchars"] !== undefined);
             assert.isFunction(engine.GetNchars);
@@ -57,7 +62,6 @@ vows.describe("Test charng things.").addBatch({
             assert.isTrue(engine["GetText"] !== undefined);
             assert.isFunction(engine.GetText);
         }
-
     },
 
     "Text": {
@@ -89,11 +93,7 @@ vows.describe("Test charng things.").addBatch({
 
     "The Models": {
         topic: function() {
-            return charng.Models; // all that's necessary to get the models
-            // NOTE: do NOT try to execute "GetNChars(n)" on an textless engine
-            // bad error.
-            //
-            // NOTE: would like to provide these models without having to instantiate anything
+            return charng.Models;
         },
         "includes markov": function(models) {
             assert.isTrue(models["markov"] !== undefined);
@@ -113,14 +113,38 @@ vows.describe("Test charng things.").addBatch({
         topic: function() {
             return simpleEngine(input);
         },
-        "returns n chars": function(engine) {
+        "returns n chars for n > 0": function(engine) {
             var n = 5,
                 output = engine.GetNchars(n);
             assert.isString(output);
             assert.lengthOf(output, n);
+        },
+        // this is the same test as for n > 0
+        // however, n = 0 currently fails for GetWords(n)
+        "returns n chars for n = 0": function(engine) {
+            var n = 0,
+                output = engine.GetNchars(0);
+            assert.isString(output);
+            assert.lengthOf(output, n);
+        }
+    },
+
+    "GetWords": {
+        topic: function() {
+            return simpleEngine(input);
+        },
+        "Should return n words for n > 0": function(engine) {
+            var n = 5,
+                output = engine.GetWords(n);
+            assert.isArray(output);
+            assert.lengthOf(output, n);
+        },
+        "Should return 0 words for n = 0": function(engine) {
+            var n = 0,
+                output = engine.GetWords(n);
+            assert.isArray(output);
+            assert.lengthOf(output, 0);
         }
     }
-
-
 
 }).run();

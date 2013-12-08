@@ -284,7 +284,7 @@ var charng = function() {
         var getWords = function(n) {
 
             var ws = [], word;
-            n = n || 1;
+            if (typeof n === "undefined") n = 1;
 
             // if model != markov
             // then n is imprecise
