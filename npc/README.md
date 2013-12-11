@@ -1,7 +1,12 @@
 ## Text-Adventure games as a text-generation engine
 
+### The Swallows
+NB: the version contained in this repo dates to early November 2013, and is not representative of the engine as it developed later in the month. The notes below are still valid, however.
+
 _The Swallows_ uses NPC characters with no user intervention to explore and interact with an environment, and each other.
+
 [Discussion on Cat's Eye's _The Swallows_](https://github.com/dariusk/NaNoGenMo/issues/39) and [the project itself](https://github.com/catseye/The-Swallows/).
+
 The engine seems pretty hard-coded to the specific storyline, with code for the gun, etc. **as of 2013.11.11 It has been expanded beyond the early version included here.**
 
 I'm interested in how setting up a world, actors and objects can lead to emergent behavior. Not necessarily "plot-oriented" but who knows. The existing versions of **The Swallows** are hard-coded for the "plot" (such as it is).
@@ -56,6 +61,16 @@ Nick Monfort's [Interactive Fiction page](http://www.nickm.com/if/) including li
 
 [Dedalus](https://github.com/pistacchio/Dedalus) is _an authoring system for generating Choose Your Own Adventure (CYOA) narrative._
 
+
+## Narratology
+* http://www.cla.purdue.edu/english/theory/narratology/
+* http://wikis.sub.uni-hamburg.de/lhn/index.php/Narratology
+* https://en.wikipedia.org/wiki/Dramatica_Theory_of_Story_Structure
+* http://dramaticapedia.com/
+ *  http://dramaticapedia.com/2010/02/09/the-dramatica-theory-of-story-structure/
+* http://dramatica.com/about
+* http://storymind.com/dramatica/
+ 
 
 ## links
 Nick Montfort - [Toward a Theory of Interactive Fiction](http://nickm.com/if/toward.html) download PDF at page
