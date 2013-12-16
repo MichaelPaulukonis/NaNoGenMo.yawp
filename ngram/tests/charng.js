@@ -167,8 +167,6 @@ vows.describe("Test charng things.").addBatch({
             assert.isString(output);
             assert.lengthOf(output, n);
         },
-        // NEVER RETURNS - since word-function relies on spaces in the original
-        // if there are none... never considers a single word to be found.
         "Should return n words for n > 0": function(engine) {
             var n = 5,
                 output = engine.GetWords(n);
