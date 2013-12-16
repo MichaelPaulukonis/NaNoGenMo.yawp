@@ -1,2 +1,6 @@
 node_modules
+output
 output.txt
+cleanup/*.txt
+cleanup/*.json
+sources/*.json.txt
