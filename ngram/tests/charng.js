@@ -6,11 +6,18 @@ var vows = require("vows"),
 
 var input = "This then is the test that we are testing.";
 
-var simpleEngine = function(input) {
+// model is optional and has default
+// seed will be null if not provided, which IS default
+var simpleEngine = function(input, seed, omodel) {
+
+    if(seed) debugger;
+
+    var model = omodel || charng.Models.markov;
+
     var opts = { input: input,
                  model: charng.Models.markov,
                  ngramLength: 4,
-                 seed: null
+                 seed: seed
                };
     var engine = charng.Create(opts);
     return engine;
@@ -68,17 +75,17 @@ vows.describe("Test charng things.").addBatch({
     "Text": {
 
         "Original Option text": {
-        topic: function() {
-            return simpleEngine(input).GetText();
-        },
-        "text returned  as expected": function(text) {
-            assert.equal(input, text);
-        }
+            topic: function() {
+                return simpleEngine(input).GetText();
+            },
+            "text returned  as expected": function(text) {
+                assert.equal(input, text);
+            }
         },
         "Post-instantiation text can be set": {
             topic: function() {
                 var newtext = "this is new text",
-                    neweng = simpleEngine(input);
+                neweng = simpleEngine(input);
                 neweng.SetText(newtext);
                 return { engine: neweng,
                          newtext: newtext
@@ -116,13 +123,13 @@ vows.describe("Test charng things.").addBatch({
         },
         "returns n chars for n > 0": function(engine) {
             var n = 5,
-                output = engine.GetNchars(n);
+            output = engine.GetNchars(n);
             assert.isString(output);
             assert.lengthOf(output, n);
         },
         "returns 0 chars for n = 0": function(engine) {
             var n = 0,
-                output = engine.GetNchars(0);
+            output = engine.GetNchars(0);
             assert.isString(output);
             assert.lengthOf(output, n);
         }
@@ -134,13 +141,13 @@ vows.describe("Test charng things.").addBatch({
         },
         "Should return n words for n > 0": function(engine) {
             var n = 5,
-                output = engine.GetWords(n);
+            output = engine.GetWords(n);
             assert.isArray(output);
             assert.lengthOf(output, n);
         },
         "Should return 0 words for n = 0": function(engine) {
             var n = 0,
-                output = engine.GetWords(n);
+            output = engine.GetWords(n);
             assert.isArray(output);
             assert.lengthOf(output, 0);
         }
@@ -149,34 +156,63 @@ vows.describe("Test charng things.").addBatch({
 
     "No spaces in input string": {
         topic: function() {
-            var stringwithnospaces = "asdflkjhasdfloawetyouiadfjklzcvxsdfgsdfgsdfg";
+                var stringwithnospaces = "asdflkjhasdfloawetyouiadfjklzcvxsdfgsdfgsdfg";
             return simpleEngine(stringwithnospaces);
         },
         "returns n chars for n > 0": function(engine) {
             var n = 5,
-                output = engine.GetNchars(n);
+            output = engine.GetNchars(n);
             assert.isString(output);
             assert.lengthOf(output, n);
         },
         "returns 0 chars for n = 0": function(engine) {
-            var n = 0,
-                output = engine.GetNchars(0);
+                var n = 0,
+            output = engine.GetNchars(0);
             assert.isString(output);
             assert.lengthOf(output, n);
         },
         "Should return n words for n > 0": function(engine) {
-            var n = 5,
-                output = engine.GetWords(n);
+                var n = 5,
+            output = engine.GetWords(n);
             assert.isArray(output);
             assert.lengthOf(output, n);
         },
         "Should return 0 words for n = 0": function(engine) {
-            var n = 0,
-                output = engine.GetWords(n);
+                var n = 0,
+            output = engine.GetWords(n);
             assert.isArray(output);
             assert.lengthOf(output, 0);
         }
+    },
 
-    }
+    "Seed": {
+        topic: function() {
+            // whether using engine-function with seed parameter
+            // or locally defintion, fails to be repeatable
+            // yet is repeatable in external application
+            // something conflicts with seed-random in testing???
+            // return simpleEngine(input, "hello");
+                var simpleEngine = function(input, seed) {
+                    var opts = { input: input,
+                                 model: charng.Models.markov,
+                                 ngramLength: 4,
+                                 seed: seed
+                               };
+                    var engine = charng.Create(opts);
+                    return engine;
+                };
+            return simpleEngine(input, "hello");
+            },
+            "return known words for known seed": function(seededEngine) {
+                var n = 10,
+                    output = seededEngine.GetWords(10).join(" "),
+                known = "hen is the test then is then is then is";
+                // using blank, because we are getting semi-random output
+                // not matching the seed
+                // DOES always start with the same letter
+                // is some OTHER prototype modified in testing????!?!
+                assert.equal(output, "");
+            }
+        }
 
-}).run();
+    }).run();

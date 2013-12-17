@@ -44,8 +44,8 @@ var charng = function() {
         var opts = o || defaultOpts();
 
         var seeder = require("seed-random");
-        if (o.seed) {
-            seeder(o.seed, {global: true});
+        if (opts.seed) {
+            seeder(opts.seed, {global: true});
         }
 
         var setModel = function(model) {
