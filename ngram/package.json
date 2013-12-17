@@ -1,0 +1,24 @@
+{
+  "name": "charng.js",
+  "version": "0.2.0",
+  "description": "character-based markov generator with no pre-processing",
+  "main": "charng.js",
+  "dependencies": {
+    "seed-random": "~2.2.0"
+  },
+  "devDependencies": {
+    "vows": "*"
+  },
+  "scripts": {
+    "test": "tests/charng.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MichaelPaulukonis/NaNoGenMo.yawp.git"
+  },
+  "author": "Michael Paulukonis",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MichaelPaulukonis/NaNoGenMo.yawp/issues"
+  }
+}

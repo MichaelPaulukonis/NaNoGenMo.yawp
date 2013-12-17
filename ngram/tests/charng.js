@@ -9,7 +9,8 @@ var input = "This then is the test that we are testing.";
 var simpleEngine = function(input) {
     var opts = { input: input,
                  model: charng.Models.markov,
-                 ngramLength: 4
+                 ngramLength: 4,
+                 seed: null
                };
     var engine = charng.Create(opts);
     return engine;
@@ -119,9 +120,7 @@ vows.describe("Test charng things.").addBatch({
             assert.isString(output);
             assert.lengthOf(output, n);
         },
-        // this is the same test as for n > 0
-        // however, n = 0 currently fails for GetWords(n)
-        "returns n chars for n = 0": function(engine) {
+        "returns 0 chars for n = 0": function(engine) {
             var n = 0,
                 output = engine.GetNchars(0);
             assert.isString(output);
@@ -159,9 +158,7 @@ vows.describe("Test charng things.").addBatch({
             assert.isString(output);
             assert.lengthOf(output, n);
         },
-        // this is the same test as for n > 0
-        // however, n = 0 currently fails for GetWords(n)
-        "returns n chars for n = 0": function(engine) {
+        "returns 0 chars for n = 0": function(engine) {
             var n = 0,
                 output = engine.GetNchars(0);
             assert.isString(output);

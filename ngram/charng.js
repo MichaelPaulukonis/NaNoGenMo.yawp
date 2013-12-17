@@ -32,7 +32,8 @@ var charng = function() {
         return {
             input: "This is the input string.",
             model: models.markov,
-            ngramLength: 5
+            ngramLength: 5,
+            seed: null
         };
 
     };
@@ -41,6 +42,11 @@ var charng = function() {
     var create = function(o) {
 
         var opts = o || defaultOpts();
+
+        var seeder = require("seed-random");
+        if (o.seed) {
+            seeder(o.seed, {global: true});
+        }
 
         var setModel = function(model) {
             // TODO: confirm that model is valid
