@@ -43,8 +43,9 @@ var charng = function() {
 
         var opts = o || defaultOpts();
 
-        var seeder = require("seed-random");
+        var seeder = require("seed-random"), rgen;
         if (opts.seed) {
+            rgen = seeder(opts.seed);
             seeder(opts.seed, {global: true});
         }
 
@@ -82,7 +83,9 @@ var charng = function() {
         // to test algorithm changes
         // we could replace getRandomIndex with an iterator over a specified set
         var getRandomIndex = function() {
-            return Math.floor(Math.random()*input.length);
+            var gen = Math.random;
+            if (rgen) { gen = rgen; }
+            return Math.floor(gen()*input.length);
         };
 
 
