@@ -1,11 +1,11 @@
-
 /** sample instantiation
     var generate = function() {
 
     var opts = {};
     var markovModels = { markov: "markov",
-    cento: "cento",
-    overlap: "1-char overlap"
+      cento: "cento",
+      overlap: "1-char overlap",
+      seed: "random-seed" // optional param to produce a known random sequence
     };
 
     opts.input = "input string";
@@ -46,7 +46,6 @@ var charng = function() {
         var seeder = require("seed-random"), rgen;
         if (opts.seed) {
             rgen = seeder(opts.seed);
-            seeder(opts.seed, {global: true});
         }
 
         var setModel = function(model) {
