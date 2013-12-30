@@ -187,15 +187,15 @@ vows.describe("Test charng things.").addBatch({
 
     "Test for random-Seed": {
         topic: function() {
-            return simpleEngine(input, "hello");
+            return function() { return simpleEngine(input, "hello"); };
         },
-        "return known words for known seed": function(seededEngine) {
+        "Engines with the same seed should return identical results": function(seededEngine) {
 
             var n = 10,
-                actual = seededEngine.GetWords(10).join(" "),
-                expected = "hen is the test then is then is then is";
+                first = seededEngine().GetWords(10).join(" "),
+                second = seededEngine().GetWords(10).join(" ");
 
-            assert.equal(actual, expected);
+            assert.deepEqual(first, second);
         }
     }
 
