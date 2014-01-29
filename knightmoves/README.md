@@ -36,3 +36,33 @@ I'm also interested in dumping text to a grid, so that lexical clusters (words, 
 ........&^^..............
 .........................
 ````
+
+possible references:
+* http://gamedev.stackexchange.com/questions/12272/determine-position-of-a-rotated-element-in-tetris
+* https://github.com/gyoshev/jquery-tetris
+* http://stackoverflow.com/questions/15263937/java-tetris-how-to-make-a-tetris-piece-move-as-4-distinct-tiles
+* recent work I did on a Conway Game-of-Life implementation with grid-based thinking.
+** some of the code in there has some applications
+
+The term I come back to is `blob` (although I use `cluster`, above). A blob of text would be analagous to a Tetris-tile (without the requirement of contiguous elements). An algorithm would create a blob, then pick an area on the grid to place it, checking for existing collisions. If collsions is found, find another location. Or, just place it and overwrite existing text/transform according to rule (XOR or something). Also rule for "rotating" tiles, so that
+
+````
+........
+..word..
+........
+````
+
+becomes
+
+````
+...
+...
+.w.
+.o.
+.r.
+.d.
+...
+...
+````
+
+This is on the assumption that **characters** are elements, with words, etc. being ignored. Treating words as elements would give us irregularly-sized elements. Not an impossibility, but more complicated.
